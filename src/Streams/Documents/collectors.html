@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Java Streams — Collectors</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root{--bg:#0f172a;--text:#e5e7eb;--muted:#94a3b8;--bd:rgba(148,163,184,.18);--acc:#38bdf8;--acc2:#a78bfa}
+        body{margin:0;background:radial-gradient(900px 700px at 110% -10%,rgba(56,189,248,.10),transparent 60%),radial-gradient(800px 560px at -10% -20%,rgba(167,139,250,.10),transparent 60%),var(--bg);color:var(--text);font-family:"Cairo",system-ui,Segoe UI,Roboto,Arial;line-height:1.8;padding:40px}
+        .wrap{max-width:1100px;margin:auto}
+        a.back{display:inline-block;margin-bottom:20px;padding:8px 14px;border:1px solid var(--bd);border-radius:12px;text-decoration:none;color:var(--text);background:rgba(148,163,184,.08)}
+        h1{font-size:clamp(26px,3.8vw,40px);margin:0 0 12px;background:linear-gradient(90deg,var(--acc),var(--acc2));-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:800}
+        p.sub{color:var(--muted);margin:0 0 20px}
+        table{width:100%;border-collapse:collapse;margin:20px 0;border:1px solid var(--bd)}
+        th,td{border-bottom:1px solid var(--bd);padding:10px 12px;vertical-align:top}
+        th{background:rgba(148,163,184,.10);text-align:right}
+        code,.sig{background:rgba(148,163,184,.12);padding:2px 6px;border-radius:8px;font-family:ui-monospace,Consolas,Menlo,monospace}
+        h2{margin-top:28px;font-size:24px}
+        h3{margin-top:20px;font-size:19px;color:#dbeafe}
+        .note{color:var(--muted);font-size:14px;margin-top:8px}
+    </style>
+</head>
+<body>
+<div class="wrap">
+    <a href="JavaStreamsReference.HTML" class="back">← رجوع للفهرس</a>
+    <h1>Java Streams — Collectors</h1>
+    <p class="sub">كل الـ Collectors من مكتبة <code>java.util.stream.Collectors</code> مع الشرح</p>
+
+    <h2>1. قوائم ومجموعات</h2>
+    <table>
+        <thead><tr><th style="width:36%">Collector</th><th>الشرح</th></tr></thead>
+        <tbody>
+        <tr><td class="sig">toList()</td><td>تجميع في List قابلة للتغيير.</td></tr>
+        <tr><td class="sig">toUnmodifiableList()</td><td>تجميع في List غير قابلة للتعديل (Java 10+).</td></tr>
+        <tr><td class="sig">toSet()</td><td>تجميع في Set.</td></tr>
+        <tr><td class="sig">toUnmodifiableSet()</td><td>Set غير قابلة للتعديل (Java 10+).</td></tr>
+        <tr><td class="sig">toCollection(Supplier)</td><td>تجميع في Collection مخصص (مثل LinkedList).</td></tr>
+        <tr><td class="sig">joining()</td><td>دمج النصوص في String واحد.</td></tr>
+        <tr><td class="sig">joining(delim)</td><td>دمج النصوص مع محدد.</td></tr>
+        <tr><td class="sig">joining(delim, prefix, suffix)</td><td>دمج النصوص مع محدد وبادئة/لاحقة.</td></tr>
+        </tbody>
+    </table>
+
+    <h2>2. Maps</h2>
+    <table>
+        <thead><tr><th style="width:36%">Collector</th><th>الشرح</th></tr></thead>
+        <tbody>
+        <tr><td class="sig">toMap(keyMapper, valueMapper)</td><td>تحويل إلى Map (يفشل عند تكرار المفتاح).</td></tr>
+        <tr><td class="sig">toMap(keyMapper, valueMapper, mergeFn)</td><td>تجميع مع دمج عند تكرار المفتاح.</td></tr>
+        <tr><td class="sig">toMap(keyMapper, valueMapper, mergeFn, mapSupplier)</td><td>تجميع في نوع Map مخصص.</td></tr>
+        <tr><td class="sig">toConcurrentMap(...)</td><td>إصدارات متزامنة من toMap.</td></tr>
+        </tbody>
+    </table>
+
+    <h2>3. Grouping / Partitioning</h2>
+    <table>
+        <thead><tr><th style="width:36%">Collector</th><th>الشرح</th></tr></thead>
+        <tbody>
+        <tr><td class="sig">groupingBy(classifier)</td><td>تجميع حسب مفتاح → Map<K, List<T>>.</td></tr>
+        <tr><td class="sig">groupingBy(classifier, downstream)</td><td>تجميع مع Collector تابع.</td></tr>
+        <tr><td class="sig">groupingBy(classifier, mapSupplier, downstream)</td><td>تحديد نوع الخريطة.</td></tr>
+        <tr><td class="sig">groupingByConcurrent(...)</td><td>نسخ متزامنة من groupingBy.</td></tr>
+        <tr><td class="sig">partitioningBy(predicate)</td><td>تقسيم إلى true/false.</td></tr>
+        <tr><td class="sig">partitioningBy(predicate, downstream)</td><td>تقسيم مع Collector تابع.</td></tr>
+        </tbody>
+    </table>
+
+    <h2>4. تحويلات أثناء التجميع</h2>
+    <table>
+        <thead><tr><th style="width:36%">Collector</th><th>الشرح</th></tr></thead>
+        <tbody>
+        <tr><td class="sig">mapping(mapper, downstream)</td><td>تطبيق map قبل التجميع.</td></tr>
+        <tr><td class="sig">filtering(predicate, downstream)</td><td>فلترة أثناء التجميع (Java 9+).</td></tr>
+        <tr><td class="sig">flatMapping(fn, downstream)</td><td>تفريد أثناء التجميع (Java 9+).</td></tr>
+        <tr><td class="sig">collectingAndThen(downstream, finisher)</td><td>تطبيق خطوة نهائية بعد التجميع.</td></tr>
+        <tr><td class="sig">teeing(collector1, collector2, merger)</td><td>تشغيل مجمّعين ودمج نتائجهما (Java 12+).</td></tr>
+        </tbody>
+    </table>
+
+    <h2>5. إحصائيات وتجميعات رقمية</h2>
+    <table>
+        <thead><tr><th style="width:36%">Collector</th><th>الشرح</th></tr></thead>
+        <tbody>
+        <tr><td class="sig">counting()</td><td>إرجاع عدد العناصر.</td></tr>
+        <tr><td class="sig">summingInt/Long/Double(mapper)</td><td>حساب المجموع.</td></tr>
+        <tr><td class="sig">averagingInt/Long/Double(mapper)</td><td>حساب المتوسط.</td></tr>
+        <tr><td class="sig">summarizingInt/Long/Double(mapper)</td><td>إرجاع إحصائيات كاملة (count, sum, min, avg, max).</td></tr>
+        <tr><td class="sig">reducing(identity, mapper, op)</td><td>اختزال أثناء التجميع.</td></tr>
+        <tr><td class="sig">maxBy(comparator), minBy(comparator)</td><td>أكبر/أصغر عنصر.</td></tr>
+        </tbody>
+    </table>
+
+    <p class="note">⬅ هذه الصفحة مخصصة بالـ Collectors فقط. باقي الصفحات: Sources · Intermediate · Terminal · Primitives موجودة عبر الفهرس.</p>
+</div>
+</body>
+</html>

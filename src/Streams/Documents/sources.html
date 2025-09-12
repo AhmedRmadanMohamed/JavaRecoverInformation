@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Java Streams — Sources</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root{--bg:#0f172a;--text:#e5e7eb;--muted:#94a3b8;--bd:rgba(148,163,184,.18);--acc:#38bdf8;--acc2:#a78bfa}
+        body{margin:0;background:radial-gradient(900px 700px at 110% -10%,rgba(56,189,248,.10),transparent 60%),radial-gradient(800px 560px at -10% -20%,rgba(167,139,250,.10),transparent 60%),var(--bg);color:var(--text);font-family:"Cairo",system-ui,Segoe UI,Roboto,Arial;line-height:1.8;padding:40px}
+        .wrap{max-width:1100px;margin:auto}
+        a.back{display:inline-block;margin-bottom:20px;padding:8px 14px;border:1px solid var(--bd);border-radius:12px;text-decoration:none;color:var(--text);background:rgba(148,163,184,.08)}
+        h1{font-size:clamp(26px,3.8vw,40px);margin:0 0 12px;background:linear-gradient(90deg,var(--acc),var(--acc2));-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:800}
+        p.sub{color:var(--muted);margin:0 0 20px}
+        table{width:100%;border-collapse:collapse;margin:20px 0;border:1px solid var(--bd)}
+        th,td{border-bottom:1px solid var(--bd);padding:10px 12px;vertical-align:top}
+        th{background:rgba(148,163,184,.10);text-align:right}
+        code,.sig{background:rgba(148,163,184,.12);padding:2px 6px;border-radius:8px;font-family:ui-monospace,Consolas,Menlo,monospace}
+        h2{margin-top:28px;font-size:24px}
+        h3{margin-top:20px;font-size:19px;color:#dbeafe}
+        .note{color:var(--muted);font-size:14px;margin-top:8px}
+    </style>
+</head>
+<body>
+<div class="wrap">
+    <a href="JavaStreamsReference.HTML" class="back">← رجوع للفهرس</a>
+    <h1>Java Streams — Sources</h1>
+    <p class="sub">كل طرق إنشاء الـ Streams (Stream<T>, IntStream, LongStream, DoubleStream)</p>
+
+    <h2>1. Stream<T> (Factories)</h2>
+    <table>
+        <thead><tr><th style="width:36%">الميثود</th><th>الشرح</th></tr></thead>
+        <tbody>
+        <tr><td class="sig">empty()</td><td>Stream فارغ.</td></tr>
+        <tr><td class="sig">of(T value)</td><td>عنصر واحد.</td></tr>
+        <tr><td class="sig">of(T... values)</td><td>عدة عناصر.</td></tr>
+        <tr><td class="sig">generate(Supplier<T>)</td><td>مولّد لا نهائي (عادة مع limit).</td></tr>
+        <tr><td class="sig">iterate(seed, UnaryOperator)</td><td>تكرار لا نهائي.</td></tr>
+        <tr><td class="sig">iterate(seed, hasNext, next)</td><td>تكرار بشرط توقف (Java 9+).</td></tr>
+        <tr><td class="sig">builder()</td><td>منشئ يدوي: add ثم build.</td></tr>
+        <tr><td class="sig">concat(a, b)</td><td>وصل Stream.</td></tr>
+        <tr><td class="sig">ofNullable(T t)</td><td>Stream بعنصر أو فارغ (Java 9+).</td></tr>
+        </tbody>
+    </table>
+
+    <h2>2. Collections / Arrays / IO / Regex</h2>
+    <table>
+        <thead><tr><th style="width:36%">الميثود</th><th>الشرح</th></tr></thead>
+        <tbody>
+        <tr><td class="sig">Collection.stream()</td><td>Stream متسلسل.</td></tr>
+        <tr><td class="sig">Collection.parallelStream()</td><td>Stream موازي.</td></tr>
+        <tr><td class="sig">Arrays.stream(T[] array)</td><td>من Array إلى Stream.</td></tr>
+        <tr><td class="sig">Arrays.stream(int[]/long[]/double[])</td><td>من مصفوفة بدائية إلى Stream بدائي.</td></tr>
+        <tr><td class="sig">Files.lines(Path)</td><td>Stream لسطر الملف (AutoCloseable).</td></tr>
+        <tr><td class="sig">Pattern.splitAsStream(text)</td><td>Stream نصوص مقسومة بـ Regex.</td></tr>
+        </tbody>
+    </table>
+
+    <h2>3. IntStream / LongStream / DoubleStream</h2>
+    <h3>IntStream</h3>
+    <table>
+        <thead><tr><th style="width:36%">الميثود</th><th>الشرح</th></tr></thead>
+        <tbody>
+        <tr><td class="sig">range(start, end)</td><td>تسلسل مفتوح النهاية.</td></tr>
+        <tr><td class="sig">rangeClosed(start, end)</td><td>تسلسل شامل النهاية.</td></tr>
+        <tr><td class="sig">of(int... values)</td><td>Stream من قيم ثابتة.</td></tr>
+        <tr><td class="sig">generate(IntSupplier)</td><td>مولّد لا نهائي.</td></tr>
+        <tr><td class="sig">iterate(seed, op)</td><td>تكرار لا نهائي.</td></tr>
+        <tr><td class="sig">iterate(seed, hasNext, next)</td><td>تكرار بشرط (Java 9+).</td></tr>
+        <tr><td class="sig">builder()</td><td>منشئ يدوي.</td></tr>
+        <tr><td class="sig">concat(a, b)</td><td>دمج IntStreams.</td></tr>
+        </tbody>
+    </table>
+
+    <h3>LongStream</h3>
+    <table>
+        <thead><tr><th style="width:36%">الميثود</th><th>الشرح</th></tr></thead>
+        <tbody>
+        <tr><td class="sig">range(start, end)</td><td>تسلسل Long.</td></tr>
+        <tr><td class="sig">rangeClosed(start, end)</td><td>تسلسل شامل النهاية.</td></tr>
+        <tr><td class="sig">of(long... values)</td><td>قيم Long.</td></tr>
+        <tr><td class="sig">generate(LongSupplier)</td><td>مولّد لا نهائي.</td></tr>
+        <tr><td class="sig">iterate(seed, op)</td><td>تكرار لا نهائي.</td></tr>
+        <tr><td class="sig">iterate(seed, hasNext, next)</td><td>مع شرط توقف.</td></tr>
+        <tr><td class="sig">builder()</td><td>منشئ يدوي.</td></tr>
+        <tr><td class="sig">concat(a, b)</td><td>دمج LongStreams.</td></tr>
+        </tbody>
+    </table>
+
+    <h3>DoubleStream</h3>
+    <table>
+        <thead><tr><th style="width:36%">الميثود</th><th>الشرح</th></tr></thead>
+        <tbody>
+        <tr><td class="sig">of(double... values)</td><td>قيم Double.</td></tr>
+        <tr><td class="sig">generate(DoubleSupplier)</td><td>مولّد لا نهائي.</td></tr>
+        <tr><td class="sig">iterate(seed, op)</td><td>تكرار لا نهائي.</td></tr>
+        <tr><td class="sig">iterate(seed, hasNext, next)</td><td>مع شرط (Java 9+).</td></tr>
+        <tr><td class="sig">builder()</td><td>منشئ يدوي.</td></tr>
+        <tr><td class="sig">concat(a, b)</td><td>دمج DoubleStreams.</td></tr>
+        </tbody>
+    </table>
+
+    <p class="note">⬅ هذه الصفحة مخصصة للمصادر فقط. باقي الصفحات: Intermediate · Terminal · Collectors · Primitives موجودة عبر الفهرس.</p>
+</div>
+</body>
+</html>

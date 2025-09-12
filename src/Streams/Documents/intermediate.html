@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Java Streams — Intermediate Operations</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root{--bg:#0f172a;--text:#e5e7eb;--muted:#94a3b8;--bd:rgba(148,163,184,.18);--acc:#38bdf8;--acc2:#a78bfa}
+        body{margin:0;background:radial-gradient(900px 700px at 110% -10%,rgba(56,189,248,.10),transparent 60%),radial-gradient(800px 560px at -10% -20%,rgba(167,139,250,.10),transparent 60%),var(--bg);color:var(--text);font-family:"Cairo",system-ui,Segoe UI,Roboto,Arial;line-height:1.8;padding:40px}
+        .wrap{max-width:1100px;margin:auto}
+        a.back{display:inline-block;margin-bottom:20px;padding:8px 14px;border:1px solid var(--bd);border-radius:12px;text-decoration:none;color:var(--text);background:rgba(148,163,184,.08)}
+        h1{font-size:clamp(26px,3.8vw,40px);margin:0 0 12px;background:linear-gradient(90deg,var(--acc),var(--acc2));-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:800}
+        p.sub{color:var(--muted);margin:0 0 20px}
+        table{width:100%;border-collapse:collapse;margin:20px 0;border:1px solid var(--bd)}
+        th,td{border-bottom:1px solid var(--bd);padding:10px 12px;vertical-align:top}
+        th{background:rgba(148,163,184,.10);text-align:right}
+        code,.sig{background:rgba(148,163,184,.12);padding:2px 6px;border-radius:8px;font-family:ui-monospace,Consolas,Menlo,monospace}
+        h2{margin-top:28px;font-size:24px}
+        h3{margin-top:20px;font-size:19px;color:#dbeafe}
+        .note{color:var(--muted);font-size:14px;margin-top:8px}
+    </style>
+</head>
+<body>
+<div class="wrap">
+    <a href="JavaStreamsReference.HTML" class="back">← رجوع للفهرس</a>
+    <h1>Java Streams — Intermediate Operations</h1>
+    <p class="sub">كل العمليات الوسيطة (Intermediate) في Stream<T>, IntStream, LongStream, DoubleStream</p>
+
+    <h2>1. Stream<T></h2>
+    <table>
+        <thead><tr><th style="width:36%">الميثود</th><th>الشرح</th></tr></thead>
+        <tbody>
+        <tr><td class="sig">map(Function)</td><td>تحويل كل عنصر لعنصر جديد.</td></tr>
+        <tr><td class="sig">mapToInt/Long/Double</td><td>تحويل إلى Stream بدائي.</td></tr>
+        <tr><td class="sig">flatMap(Function)</td><td>تفريد Streams داخلية.</td></tr>
+        <tr><td class="sig">flatMapToInt/Long/Double</td><td>تفريد إلى Primitive Streams.</td></tr>
+        <tr><td class="sig">mapMulti(BiConsumer)</td><td>بديل فعال لـ flatMap (Java 16+).</td></tr>
+        <tr><td class="sig">filter(Predicate)</td><td>ترشيح العناصر.</td></tr>
+        <tr><td class="sig">distinct()</td><td>إزالة التكرارات.</td></tr>
+        <tr><td class="sig">sorted()</td><td>ترتيب طبيعي.</td></tr>
+        <tr><td class="sig">sorted(Comparator)</td><td>ترتيب بمقارن مخصص.</td></tr>
+        <tr><td class="sig">peek(Consumer)</td><td>مراقبة/تصحيح (debug).</td></tr>
+        <tr><td class="sig">limit(n)</td><td>أخذ أول n عناصر.</td></tr>
+        <tr><td class="sig">skip(n)</td><td>تخطي أول n عناصر.</td></tr>
+        <tr><td class="sig">takeWhile(Predicate)</td><td>أخذ عناصر طالما الشرط صحيح (Java 9+).</td></tr>
+        <tr><td class="sig">dropWhile(Predicate)</td><td>تجاهل طالما الشرط صحيح (Java 9+).</td></tr>
+        <tr><td class="sig">unordered()</td><td>إلغاء ضمان الترتيب لتحسين الأداء.</td></tr>
+        <tr><td class="sig">onClose(Runnable)</td><td>إجراء عند إغلاق الـ Stream.</td></tr>
+        </tbody>
+    </table>
+
+    <h2>2. IntStream / LongStream / DoubleStream</h2>
+    <table>
+        <thead><tr><th style="width:36%">الميثود</th><th>الشرح</th></tr></thead>
+        <tbody>
+        <tr><td class="sig">map(XUnaryOperator)</td><td>تحويل ضمن نفس النوع البدائي.</td></tr>
+        <tr><td class="sig">mapToObj(XFunction)</td><td>تحويل إلى Stream مرجعي.</td></tr>
+        <tr><td class="sig">mapToInt/Long/Double</td><td>تحويل لأنواع بدائية أخرى.</td></tr>
+        <tr><td class="sig">flatMap(XFunction)</td><td>تفريد إلى Streams بدائية.</td></tr>
+        <tr><td class="sig">filter(XPredicate)</td><td>ترشيح.</td></tr>
+        <tr><td class="sig">distinct(), sorted()</td><td>إزالة التكرار/ترتيب.</td></tr>
+        <tr><td class="sig">peek(XConsumer)</td><td>مراقبة.</td></tr>
+        <tr><td class="sig">limit(n), skip(n)</td><td>قصّ.</td></tr>
+        <tr><td class="sig">takeWhile(XPredicate), dropWhile(XPredicate)</td><td>Java 9+.</td></tr>
+        <tr><td class="sig">asDoubleStream()</td><td>تحويل إلى DoubleStream.</td></tr>
+        <tr><td class="sig">boxed()</td><td>تحويل إلى Stream من الكائنات (Integer/Long/Double).</td></tr>
+        </tbody>
+    </table>
+
+    <p class="note">⬅ هذه الصفحة مخصصة بالعمليات الوسيطة فقط. باقي الصفحات: Sources · Terminal · Collectors · Primitives موجودة عبر الفهرس.</p>
+</div>
+</body>
+</html>

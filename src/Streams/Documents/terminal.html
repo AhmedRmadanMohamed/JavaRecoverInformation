@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Java Streams — Terminal Operations</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root{--bg:#0f172a;--text:#e5e7eb;--muted:#94a3b8;--bd:rgba(148,163,184,.18);--acc:#38bdf8;--acc2:#a78bfa}
+        body{margin:0;background:radial-gradient(900px 700px at 110% -10%,rgba(56,189,248,.10),transparent 60%),radial-gradient(800px 560px at -10% -20%,rgba(167,139,250,.10),transparent 60%),var(--bg);color:var(--text);font-family:"Cairo",system-ui,Segoe UI,Roboto,Arial;line-height:1.8;padding:40px}
+        .wrap{max-width:1100px;margin:auto}
+        a.back{display:inline-block;margin-bottom:20px;padding:8px 14px;border:1px solid var(--bd);border-radius:12px;text-decoration:none;color:var(--text);background:rgba(148,163,184,.08)}
+        h1{font-size:clamp(26px,3.8vw,40px);margin:0 0 12px;background:linear-gradient(90deg,var(--acc),var(--acc2));-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:800}
+        p.sub{color:var(--muted);margin:0 0 20px}
+        table{width:100%;border-collapse:collapse;margin:20px 0;border:1px solid var(--bd)}
+        th,td{border-bottom:1px solid var(--bd);padding:10px 12px;vertical-align:top}
+        th{background:rgba(148,163,184,.10);text-align:right}
+        code,.sig{background:rgba(148,163,184,.12);padding:2px 6px;border-radius:8px;font-family:ui-monospace,Consolas,Menlo,monospace}
+        h2{margin-top:28px;font-size:24px}
+        h3{margin-top:20px;font-size:19px;color:#dbeafe}
+        .note{color:var(--muted);font-size:14px;margin-top:8px}
+    </style>
+</head>
+<body>
+<div class="wrap">
+    <a href="index.html" class="back">← رجوع للفهرس</a>
+    <h1>Java Streams — Terminal Operations</h1>
+    <p class="sub">كل العمليات النهائية (Terminal) في Stream<T>, IntStream, LongStream, DoubleStream</p>
+
+    <h2>1. Stream<T></h2>
+    <table>
+        <thead><tr><th style="width:36%">الميثود</th><th>الشرح</th></tr></thead>
+        <tbody>
+        <tr><td class="sig">forEach(Consumer)</td><td>يمر على كل عنصر (الترتيب غير مضمون في الموازي).</td></tr>
+        <tr><td class="sig">forEachOrdered(Consumer)</td><td>يمر على العناصر بنفس ترتيب encounter.</td></tr>
+        <tr><td class="sig">toArray()</td><td>تحويل إلى مصفوفة.</td></tr>
+        <tr><td class="sig">toArray(IntFunction<A[]>)</td><td>تحويل بمولّد مصفوفة.</td></tr>
+        <tr><td class="sig">min(Comparator), max(Comparator)</td><td>إرجاع أصغر/أكبر عنصر.</td></tr>
+        <tr><td class="sig">count()</td><td>إرجاع عدد العناصر.</td></tr>
+        <tr><td class="sig">findFirst(), findAny()</td><td>إرجاع أول/أي عنصر (Optional).</td></tr>
+        <tr><td class="sig">anyMatch(Predicate), allMatch(Predicate), noneMatch(Predicate)</td><td>مطابقات منطقية قصيرة.</td></tr>
+        <tr><td class="sig">reduce(BinaryOperator)</td><td>اختزال بدون قيمة بداية.</td></tr>
+        <tr><td class="sig">reduce(identity, BinaryOperator)</td><td>اختزال يبدأ بـ identity.</td></tr>
+        <tr><td class="sig">reduce(identity, accumulator, combiner)</td><td>اختزال عام (يدعم parallel).</td></tr>
+        <tr><td class="sig">collect(Collector)</td><td>تجميع باستخدام Collectors.</td></tr>
+        <tr><td class="sig">collect(Supplier, accumulator, combiner)</td><td>تجميع مخصص.</td></tr>
+        </tbody>
+    </table>
+
+    <h2>2. IntStream / LongStream / DoubleStream</h2>
+    <table>
+        <thead><tr><th style="width:36%">الميثود</th><th>الشرح</th></tr></thead>
+        <tbody>
+        <tr><td class="sig">forEach(XConsumer)</td><td>تمرير على كل عنصر.</td></tr>
+        <tr><td class="sig">forEachOrdered(XConsumer)</td><td>تمرير مع الحفاظ على الترتيب.</td></tr>
+        <tr><td class="sig">toArray()</td><td>تحويل إلى Array بدائية.</td></tr>
+        <tr><td class="sig">min(), max()</td><td>أصغر/أكبر قيمة (OptionalX).</td></tr>
+        <tr><td class="sig">sum()</td><td>مجموع القيم.</td></tr>
+        <tr><td class="sig">average()</td><td>متوسط (OptionalDouble).</td></tr>
+        <tr><td class="sig">summaryStatistics()</td><td>إحصائيات كاملة: count, sum, min, average, max.</td></tr>
+        <tr><td class="sig">count()</td><td>عدد العناصر.</td></tr>
+        <tr><td class="sig">findFirst(), findAny()</td><td>أول/أي عنصر.</td></tr>
+        <tr><td class="sig">anyMatch(XPredicate), allMatch(XPredicate), noneMatch(XPredicate)</td><td>مطابقات منطقية.</td></tr>
+        <tr><td class="sig">reduce(identity, XBinaryOperator)</td><td>اختزال بقيمة بداية.</td></tr>
+        <tr><td class="sig">reduce(XBinaryOperator)</td><td>اختزال بدون قيمة بداية.</td></tr>
+        <tr><td class="sig">collect(Supplier, ObjXConsumer, BiConsumer)</td><td>تجميع باستخدام حاوية مخصصة.</td></tr>
+        </tbody>
+    </table>
+
+    <p class="note">⬅ هذه الصفحة مخصصة بالعمليات النهائية فقط. باقي الصفحات: Sources · Intermediate · Collectors · Primitives موجودة عبر الفهرس.</p>
+</div>
+</body>
+</html>
