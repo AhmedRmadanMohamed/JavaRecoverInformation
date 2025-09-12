@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Java Streams — Cheat Sheet</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0f172a;       /* slate-900 */
+            --panel: #0b1220;    /* deep slate */
+            --card: #0b1220;
+            --muted: #94a3b8;    /* slate-400 */
+            --text: #e5e7eb;     /* zinc-200 */
+            --accent: #60a5fa;   /* blue-400 */
+            --accent-2: #22d3ee; /* cyan-400 */
+            --ring: rgba(96,165,250,.35);
+            --shadow: 0 20px 60px rgba(2, 6, 23, 0.65), 0 8px 24px rgba(30, 58, 138, 0.25);
+            --radius-xl: 22px;
+            --radius-2xl: 28px;
+        }
+
+        * { box-sizing: border-box; }
+        html, body { height: 100%; }
+
+        body {
+            margin: 0;
+            font-family: "Cairo", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+            background: radial-gradient(1200px 800px at 100% -10%, rgba(34,211,238,.08), transparent 60%),
+            radial-gradient(800px 600px at -20% 0%, rgba(96,165,250,.10), transparent 60%),
+            var(--bg);
+            color: var(--text);
+            display: grid;
+            place-items: start center;
+            padding: 48px 18px 64px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 980px;
+            animation: fadeIn .6s ease-out;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        .title {
+            font-weight: 800;
+            font-size: clamp(28px, 4vw, 44px);
+            letter-spacing: .3px;
+            margin: 0 0 8px;
+            background: linear-gradient(90deg, var(--accent), var(--accent-2));
+            -webkit-background-clip: text; background-clip: text; color: transparent;
+        }
+
+        .subtitle {
+            margin: 0 auto;
+            max-width: 60ch;
+            font-size: clamp(14px, 1.8vw, 18px);
+            color: var(--muted);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 18px;
+            margin-top: 22px;
+        }
+
+        @media (min-width: 640px) {
+            .grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        .card {
+            position: relative;
+            background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+            border: 1px solid rgba(148, 163, 184, 0.14);
+            backdrop-filter: blur(6px);
+            border-radius: var(--radius-2xl);
+            padding: 18px 18px 18px 18px;
+            box-shadow: var(--shadow);
+            transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+            overflow: hidden;
+            isolation: isolate;
+        }
+
+        .card::before{
+            content: "";
+            position: absolute; inset: -1px;
+            background: radial-gradient(400px 120px at 100% -10%, rgba(34,211,238,.10), transparent 60%),
+            radial-gradient(400px 140px at -10% -20%, rgba(96,165,250,.10), transparent 60%);
+            z-index: -1;
+            border-radius: inherit;
+        }
+
+        .card:hover{
+            transform: translateY(-2px);
+            border-color: rgba(125, 211, 252, .35);
+            box-shadow: 0 24px 80px rgba(2, 6, 23, 0.75), 0 10px 30px rgba(56, 189, 248, 0.25);
+        }
+
+        .card-header{
+            display: flex; align-items: center; gap: 12px; margin-bottom: 10px;
+        }
+
+        .icon {
+            width: 38px; height: 38px; flex: 0 0 auto;
+            display: grid; place-items: center;
+            border-radius: 14px;
+            background: linear-gradient(135deg, rgba(96,165,250,.18), rgba(34,211,238,.16));
+            border: 1px solid rgba(148, 163, 184, 0.25);
+        }
+
+        .card-title{
+            font-weight: 700; font-size: 20px; margin: 0; letter-spacing: .2px;
+        }
+        .card-body{ color: var(--text); line-height: 1.8; font-size: 16px; }
+
+        .badge {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 6px 12px; border-radius: 999px;
+            border: 1px solid rgba(148,163,184,.2);
+            background: rgba(148,163,184,.06);
+            color: var(--muted); font-weight: 600; font-size: 12px; letter-spacing: .4px;
+        }
+
+        .flowline {
+            margin-top: 8px; font-size: 13px; color: var(--muted);
+            display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+        }
+
+        .flowline .dot{ width: 6px; height: 6px; border-radius: 50%; background: var(--accent-2); box-shadow: 0 0 0 3px rgba(34,211,238,.15); }
+
+        footer { text-align: center; margin-top: 28px; color: var(--muted); font-size: 12px; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+<main class="container">
+    <header>
+        <h1 class="title">Java Streams — الملخّص السريع (Cheat Sheet)</h1>
+        <p class="subtitle">أربع مفاهيم أساسية تفهّمك الـ Streams من غير تعقيد: Pipeline · Lazy · One‑shot · Immutable</p>
+    </header>
+
+    <section class="grid">
+        <!-- Pipeline -->
+        <article class="card">
+            <div class="card-header">
+                <div class="icon" aria-hidden="true">
+                    <!-- pipeline icon -->
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path d="M4 7h7M4 12h11M4 17h15" stroke="currentColor" opacity=".9" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <h2 class="card-title">Pipeline</h2>
+            </div>
+            <div class="card-body">
+                الـ Stream بيتقسم 3 مراحل:
+                <strong>Source</strong> (المصدر) → <strong>Intermediate</strong> (العمليات) → <strong>Terminal</strong> (النتيجة).
+                <div class="flowline" aria-label="Flow">
+                    <span class="dot"></span> Source
+                    <span>→</span> Intermediate
+                    <span>→</span> Terminal
+                </div>
+            </div>
+        </article>
+
+        <!-- Lazy -->
+        <article class="card">
+            <div class="card-header">
+                <div class="icon" aria-hidden="true">
+                    <!-- lazy icon (pause) -->
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <rect x="6" y="5" width="4" height="14" rx="1.2" fill="currentColor" opacity=".85"/>
+                        <rect x="14" y="5" width="4" height="14" rx="1.2" fill="currentColor" opacity=".85"/>
+                    </svg>
+                </div>
+                <h2 class="card-title">Lazy</h2>
+            </div>
+            <div class="card-body">
+                الـ <em>Intermediate</em> ما تتنفّذش غير لما تعمل <strong>Terminal</strong> — الزر اللي يشغّل الخط كله.
+            </div>
+        </article>
+
+        <!-- One-shot -->
+        <article class="card">
+            <div class="card-header">
+                <div class="icon" aria-hidden="true">
+                    <!-- one-shot icon (bolt) -->
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z" fill="currentColor" opacity=".9"/>
+                    </svg>
+                </div>
+                <h2 class="card-title">One‑shot</h2>
+            </div>
+            <div class="card-body">
+                الـ Stream «يتاكل» مرة واحدة بس؛ لو عايز تكرّر، اعمل <strong>Stream</strong> جديد من <strong>المصدر</strong>.
+            </div>
+        </article>
+
+        <!-- Immutable -->
+        <article class="card">
+            <div class="card-header">
+                <div class="icon" aria-hidden="true">
+                    <!-- immutable icon (shield) -->
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path d="M12 3l7 3v6c0 4.5-3.1 7.9-7 9-3.9-1.1-7-4.5-7-9V6l7-3z" stroke="currentColor" opacity=".9" stroke-width="1.8"/>
+                        <path d="M9.5 12.5l2 2 3.5-3.5" stroke="currentColor" opacity=".9" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <h2 class="card-title">Immutable</h2>
+            </div>
+            <div class="card-body">
+                الـ Stream ما يغيّرش الداتا الأصلية؛ بيرجع لك <strong>نتيجة جديدة</strong> مبنية على العمليات اللي طلبتها.
+            </div>
+        </article>
+    </section>
+
+    <footer>
+        جاهز للخطوة الجاية؟ جرّب تطبّق كل مفهوم على كود صغير، وبعدين زوّد التعقيد واحدة واحدة.
+    </footer>
+</main>
+</body>
+</html>
