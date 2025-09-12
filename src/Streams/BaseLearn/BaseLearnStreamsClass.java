@@ -1,9 +1,7 @@
-package Streams;
-
+package Streams.BaseLearn;
 import java.util.ArrayList;
 import java.util.List;
-
-public class StreamsClass {
+public class BaseLearnStreamsClass {
     public static List<Integer> listForStream() {
         List<Integer> list = new ArrayList<>();
 
@@ -12,6 +10,8 @@ public class StreamsClass {
         }
         return list;
     }
+
+
 
 
 }
