@@ -1,4 +1,4 @@
-package SolidPrinciples.OpenClosePrinciple;
+package SolidPrinciples.OpenClosePrinciple.Example;
 
 class DHL implements ShippingProvider {
     @Override

@@ -1,4 +1,4 @@
-package SolidPrinciples.OpenClosePrinciple;
+package SolidPrinciples.OpenClosePrinciple.Example;
 
 class Aramex implements ShippingProvider {
     @Override

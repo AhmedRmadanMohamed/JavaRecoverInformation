@@ -1,4 +1,4 @@
-package SolidPrinciples.OpenClosePrinciple;
+package SolidPrinciples.OpenClosePrinciple.Example;
 
 public class QuickShip implements ShippingProvider {
     @Override

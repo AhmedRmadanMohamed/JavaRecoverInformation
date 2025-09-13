@@ -1,4 +1,4 @@
-package SolidPrinciples.OpenClosePrinciple;
+package SolidPrinciples.OpenClosePrinciple.Example;
 
 import java.util.HashMap;
 import java.util.List;
