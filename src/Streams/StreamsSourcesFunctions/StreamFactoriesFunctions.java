@@ -1,5 +1,9 @@
 package Streams.StreamsSourcesFunctions;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class StreamFactoriesFunctions {
@@ -42,4 +46,35 @@ public class StreamFactoriesFunctions {
         return Stream.concat(List1, List2);
     }
 
+    public static List<String> CollectionUseStream() {
+        List<String> names = new ArrayList<>();
+        names.add("John");
+        names.add("Jane");
+        names.add("Bob");
+        names.add("Mary");
+        return names.stream().filter(Name -> Name.equals("Mary")).collect(Collectors.toList());
+
+
+    }
+
+    public static List<Integer> CollectionUseParallelStream() {
+        List<Integer> namesPara = new ArrayList<>();
+        for (int i = 0; i < 10000; i++) {
+            namesPara.add(i);
+        }
+        return namesPara.parallelStream().filter(I -> I < 500).collect(Collectors.toList());
+
+
+    }
+
+
+    public static Double[] ArrayUseStream(int ArrayLength) {
+        int[] NumberOfArray = new int[ArrayLength];
+
+        for (int i = 0; i < NumberOfArray.length; i++) {
+            NumberOfArray[i] = i + 1;
+        }
+        return Arrays.stream(NumberOfArray).mapToObj(Double::valueOf).toArray(Double[]::new);
+
+    }
 }

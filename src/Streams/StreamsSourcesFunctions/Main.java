@@ -1,6 +1,8 @@
 package Streams.StreamsSourcesFunctions;
 
 
+import java.util.Arrays;
+
 import static Streams.StreamsSourcesFunctions.StreamFactoriesFunctions.*;
 
 public class Main {
@@ -27,7 +29,12 @@ public class Main {
         System.out.println("------------------StreamUseConcat-------------------------------");
         StreamUseConcat(streamUseIterate(1, 4, 10), streamUseIterateUseCondemnation(0, 10, 10))
                 .forEach(System.out::println);
-
+        System.out.println("------------------  CollectionUseStream--------------------------");
+        CollectionUseStream().forEach(System.out::println);
+        System.out.println("------------------ CollectionUseParallelStream--------------------");
+        CollectionUseParallelStream().forEach(System.out::println);
+        System.out.println("---------------------ArrayUseStream--------------------------------");
+        Arrays.stream(ArrayUseStream(50)).forEach(System.out::println);
 
     }
 }
